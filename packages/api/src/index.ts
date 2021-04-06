@@ -1,3 +1,3 @@
 import { add } from '@banking/db'
 
-add(10, 20)
+console.log(add(10, 20))
