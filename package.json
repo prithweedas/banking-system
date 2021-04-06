@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build": "lerna run build",
+    "clean": "lerna run clean",
     "commit": "cz"
   },
   "config": {
