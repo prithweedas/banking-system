@@ -1,0 +1,29 @@
+{
+  "name": "@banking/types",
+  "version": "1.0.0",
+  "private": true,
+  "description": "shared types",
+  "author": "Prithwee Das <prithweedas123@gmail.com>",
+  "homepage": "https://github.com/prithweedas/banking-system#readme",
+  "license": "MIT",
+  "main": "index",
+  "types": "index",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prithweedas/banking-system.git"
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "clean": "rimraf dist tsconfig.build.tsbuildinfo index.js index.js.map index.d.ts index.d.ts.map"
+  },
+  "dependencies": {
+    "typescript": "^4.2.3"
+  }
+}
