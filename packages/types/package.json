@@ -6,8 +6,8 @@
   "author": "Prithwee Das <prithweedas123@gmail.com>",
   "homepage": "https://github.com/prithweedas/banking-system#readme",
   "license": "MIT",
-  "main": "index",
-  "types": "index",
+  "main": "dist/index",
+  "types": "dist/index",
   "directories": {
     "lib": "lib",
     "test": "__tests__"

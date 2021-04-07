@@ -1,6 +1,6 @@
 import Ajv, { JSONSchemaType } from 'ajv'
 import addFormats from 'ajv-formats'
-import { Account } from 'types'
+import { Account } from '@banking/types'
 
 export const ajv = new Ajv()
 addFormats(ajv, ['email'])

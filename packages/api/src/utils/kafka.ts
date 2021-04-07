@@ -1,3 +1,4 @@
+import { KafkaTopics } from '@banking/types'
 import { Kafka } from 'kafkajs'
 
 const brokers = (process.env.KAFKA_BROKERS || '').split(',')
@@ -6,8 +7,6 @@ const kafka = new Kafka({
   brokers,
   clientId: CLIENT_ID
 })
-
-export const PAN_VERIFICATION_TOPIC = 'pan-verification'
 
 export const producer = kafka.producer()
 
@@ -19,7 +18,7 @@ const getPanVerificationPartition = (accountId: string) => {
 export const submitPanVerification = async (accountId: string, pan: string) => {
   const partition = getPanVerificationPartition(accountId)
   await producer.send({
-    topic: PAN_VERIFICATION_TOPIC,
+    topic: KafkaTopics.PAN_VERIFICATION_TOPIC,
     messages: [{ value: JSON.stringify({ accountId, pan }), partition }]
   })
 }

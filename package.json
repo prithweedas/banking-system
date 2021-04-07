@@ -20,6 +20,8 @@
     "clean": "lerna run clean",
     "start:api": "lerna exec --scope=@banking/api -- yarn start:dev",
     "start:task": "lerna run start:dev --stream --scope=@banking/tasks --",
+    "script:mongo": "lerna run start:prod --stream --scope=@banking/scripts -- dist/mongo.js",
+    "script:kafka": "lerna run start:prod --stream --scope=@banking/scripts -- dist/kafka.js",
     "commit": "cz"
   },
   "config": {

@@ -6,11 +6,11 @@ import {
   loginAccountRequestValidator
 } from '../utils/validators'
 import { AuthLocal, CustomRequestHandler } from '../types/requests'
-import { Account } from 'types'
 import { decrypt, encrypt } from '../utils/encryption'
 import { errorResponse } from '../utils/errorResponse'
 import { createToken } from '../utils/jwt'
 import { submitPanVerification } from '../utils/kafka'
+import { Account } from '@banking/types'
 
 const SECURE_COOKIE = process.env.NODE_ENV === 'production'
 

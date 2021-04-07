@@ -3,9 +3,9 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
-    "outDir": "./",
-    "rootDir": "./"
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "references": [{ "path": "../db/tsconfig.build.json" }],
-  "include": ["index.ts"]
+  "include": ["src"]
 }
