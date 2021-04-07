@@ -18,8 +18,8 @@
   "scripts": {
     "build": "lerna run build",
     "clean": "lerna run clean",
-    "start:api": "lerna run start:dev --scope=@banking/api",
-    "start:task": "lerna run start:dev --scope=@banking/tasks --",
+    "start:api": "lerna exec --scope=@banking/api -- yarn start:dev",
+    "start:task": "lerna run start:dev --stream --scope=@banking/tasks --",
     "commit": "cz"
   },
   "config": {

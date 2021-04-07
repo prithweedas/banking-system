@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@banking/types": "^1.0.0",
     "kafkajs": "^1.15.0"
   },
   "devDependencies": {
@@ -21,5 +22,8 @@
     "build": "tsc -b tsconfig.build.json",
     "clean": "rimraf dist tsconfig.build.tsbuildinfo",
     "start:dev": "ts-node-dev -r tsconfig-paths/register -r dotenv/config"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
