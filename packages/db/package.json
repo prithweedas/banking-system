@@ -7,10 +7,12 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "kafkajs": "^1.15.0",
-    "mongodb": "^3.6.5"
+    "lodash": "^4.17.21",
+    "mongodb": "^3.6.5",
+    "tedis": "^0.1.12"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.168",
     "@types/mongodb": "^3.6.12",
     "@types/node": "^14.14.37",
     "rimraf": "^3.0.2",
@@ -19,5 +21,8 @@
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
     "clean": "rimraf dist tsconfig.build.tsbuildinfo"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
