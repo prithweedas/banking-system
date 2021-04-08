@@ -1,3 +1,4 @@
+import { AccountStates } from '@banking/types'
 import { Tedis } from 'tedis'
 const REDIS_HOST = process.env.REDIS_HOST || 'localhost'
 const REDIS_PORT = parseInt(process.env.REDIS_PORT || '6379')
@@ -14,4 +15,14 @@ export const setRefreshToken = async (token: string, accountId: string) => {
 }
 export const getAccountFromRefreshToken = async (token: string) => {
   return (await client.get(`refresh:${token}`)) as string | null
+}
+
+export const setAccountStatus = async (
+  accountId: string,
+  status: AccountStates
+) => {
+  await client.set(`account-state:${accountId}`, status)
+}
+export const getAccountStatus = async (accountId: string) => {
+  return (await client.get(`account-state:${accountId}`)) as AccountStates
 }
