@@ -18,7 +18,7 @@ const getPanVerificationPartition = (accountId: string) => {
 export const submitPanVerification = async (accountId: string, pan: string) => {
   const partition = getPanVerificationPartition(accountId)
   await producer.send({
-    topic: KafkaTopics.PAN_VERIFICATION_TOPIC,
+    topic: KafkaTopics.PAN_VERIFICATION,
     messages: [{ value: JSON.stringify({ accountId, pan }), partition }]
   })
 }

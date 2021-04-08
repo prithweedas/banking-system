@@ -11,6 +11,7 @@ import { errorResponse } from '../utils/errorResponse'
 import { createToken } from '../utils/jwt'
 import { submitPanVerification } from '../utils/kafka'
 import { Account } from '@banking/types'
+import { authCheck } from '../middlewares/authCHeck'
 
 const SECURE_COOKIE = process.env.NODE_ENV === 'production'
 
@@ -22,7 +23,7 @@ const createAccountHandler: CustomRequestHandler<Omit<Account, 'id'>> = async (
 ) => {
   try {
     const {
-      body: { email, pan, address, username, password }
+      body: { email, pan, address, username, password, type }
     } = req
     const account = await mongo.account.getAccountByUsername(username)
     if (account) {
@@ -36,8 +37,10 @@ const createAccountHandler: CustomRequestHandler<Omit<Account, 'id'>> = async (
       // INFO: pan number can not be used without the user's consent
       pan: crypt,
       username: username,
-      address: encrypt(JSON.stringify(address))
+      address: encrypt(JSON.stringify(address)),
+      type
     })
+    await redis.setAccountStatus(accountId, 'PENDING')
     await submitPanVerification(accountId, pan)
     res
       .json({
@@ -117,6 +120,23 @@ const refreshAuthToken: CustomRequestHandler<unknown> = async (req, res) => {
   }
 }
 
+const accountOverview: CustomRequestHandler<unknown, AuthLocal> = async (
+  req,
+  res
+) => {
+  try {
+    const {
+      locals: { accountId }
+    } = res
+    res.json({
+      success: true,
+      account: await mongo.account.getAccountOverview(accountId)
+    })
+  } catch (error) {
+    errorResponse(res)
+  }
+}
+
 router.post(
   '/create',
   requestvalidator(createAccountRequestValidator),
@@ -127,6 +147,7 @@ router.post(
   requestvalidator(loginAccountRequestValidator),
   loginAccountHandler
 )
-router.get('/refresh', refreshAuthToken)
+router.get('/refresh', authCheck, refreshAuthToken)
+router.get('/overview', authCheck, accountOverview)
 
 export const accountRouter = router

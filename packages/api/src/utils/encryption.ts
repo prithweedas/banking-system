@@ -2,7 +2,8 @@ import crypto from 'crypto'
 
 const ITERATIONS = 2095
 
-const INTERNAL_PASSWORD = process.env.INTERNAL_PASSWORD || ''
+// INFO: ideally use AWS KMS or Azure key vault to manage these keys
+const INTERNAL_PASSWORD = process.env.INTERNAL_PASSWORD || 'sdvsdvsdvsvdsdvs'
 
 export const encrypt = function (text: string, password?: string) {
   const iv = crypto.randomBytes(16)

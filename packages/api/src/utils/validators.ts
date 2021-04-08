@@ -8,6 +8,10 @@ addFormats(ajv, ['email'])
 const createAccountRequestSchema: JSONSchemaType<Omit<Account, 'id'>> = {
   type: 'object',
   properties: {
+    type: {
+      type: 'string',
+      enum: ['CURRENT', 'SAVINGS']
+    },
     password: {
       type: 'string',
       maxLength: 20,
@@ -50,7 +54,7 @@ const createAccountRequestSchema: JSONSchemaType<Omit<Account, 'id'>> = {
       pattern: '^[a-zA-Z0-9]*$'
     }
   },
-  required: ['address', 'email', 'pan', 'username', 'password']
+  required: ['address', 'email', 'pan', 'username', 'password', 'type']
 }
 
 const loginAccountRequestSchema: JSONSchemaType<
