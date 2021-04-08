@@ -37,14 +37,14 @@ const main = async () => {
 
     // INFO: transaction
     await Promise.all([
-      // INFO: creating index on account id
+      // INFO: creating index on transaction id
       mongo.db.collection('transaction').createIndex(
         {
           id: 1
         },
         { unique: true }
       ),
-      // INFO: creating index on username
+      // INFO: creating index on account id
       mongo.db.collection('transaction').createIndex(
         {
           account: 1
