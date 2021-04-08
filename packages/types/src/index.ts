@@ -9,8 +9,11 @@ export type Account = {
   }
   pan: string
   password: string
+  type: 'CURRENT' | 'SAVINGS'
 }
 
+export type AccountStates = 'PENDING' | 'ACTIVE' | 'REJECTED' | 'FREEZED'
+
 export enum KafkaTopics {
-  PAN_VERIFICATION_TOPIC = 'pan-verification'
+  PAN_VERIFICATION = 'pan-verification'
 }
