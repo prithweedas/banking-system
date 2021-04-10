@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
-    "clean": "rimraf dist tsconfig.build.tsbuildinfo index.js index.js.map index.d.ts index.d.ts.map"
+    "clean": "rimraf dist tsconfig.build.tsbuildinfo"
   },
   "dependencies": {
     "typescript": "^4.2.3"
