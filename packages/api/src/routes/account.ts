@@ -17,7 +17,7 @@ const SECURE_COOKIE = process.env.NODE_ENV === 'production'
 
 const router = Router()
 
-const createAccountHandler: CustomRequestHandler<Omit<Account, 'id'>> = async (
+const createAccountHandler: CustomRequestHandler<Account> = async (
   req,
   res
 ) => {
@@ -40,8 +40,11 @@ const createAccountHandler: CustomRequestHandler<Omit<Account, 'id'>> = async (
       address: encrypt(JSON.stringify(address)),
       type
     })
-    await redis.setAccountStatus(accountId, 'PENDING')
-    await submitPanVerification(accountId, pan)
+    await Promise.all([
+      redis.setAccountState(accountId, 'PENDING'),
+      redis.setAccountType(accountId, type),
+      submitPanVerification({ accountId, pan })
+    ])
     res
       .json({
         success: true,
@@ -121,7 +124,7 @@ const refreshAuthToken: CustomRequestHandler<unknown> = async (req, res) => {
 }
 
 const accountOverview: CustomRequestHandler<unknown, AuthLocal> = async (
-  req,
+  _,
   res
 ) => {
   try {

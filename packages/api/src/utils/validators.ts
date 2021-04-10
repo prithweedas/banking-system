@@ -1,11 +1,11 @@
 import Ajv, { JSONSchemaType } from 'ajv'
 import addFormats from 'ajv-formats'
-import { Account } from '@banking/types'
+import { Account, Transaction } from '@banking/types'
 
 export const ajv = new Ajv()
 addFormats(ajv, ['email'])
 
-const createAccountRequestSchema: JSONSchemaType<Omit<Account, 'id'>> = {
+const createAccountRequestSchema: JSONSchemaType<Account> = {
   type: 'object',
   properties: {
     type: {
@@ -77,10 +77,29 @@ const loginAccountRequestSchema: JSONSchemaType<
   required: ['username', 'password']
 }
 
+const createTransactionRequestSchema: JSONSchemaType<Transaction> = {
+  type: 'object',
+  properties: {
+    amount: {
+      type: 'number',
+      minimum: 1
+    },
+    type: {
+      type: 'string',
+      enum: ['CREDIT', 'DEBIT']
+    }
+  },
+  required: ['amount', 'type']
+}
+
 // INFO: compile all schemas during startup
 export const createAccountRequestValidator = ajv.compile(
   createAccountRequestSchema
 )
 export const loginAccountRequestValidator = ajv.compile(
   loginAccountRequestSchema
+)
+
+export const createTransactionRequestValidator = ajv.compile(
+  createTransactionRequestSchema
 )

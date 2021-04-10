@@ -10,7 +10,7 @@ export const checkAccountState: CustomRequestHandler<
     const {
       locals: { accountId }
     } = res
-    const accountState = await redis.getAccountStatus(accountId)
+    const accountState = await redis.getAccountState(accountId)
     if (accountState !== 'ACTIVE') {
       errorResponse(res, 401, 'Account not active')
       return
