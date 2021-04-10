@@ -19,6 +19,10 @@ type GetAccountByUsername = (username: string) => Promise<AccountModel | null>
 type GetAccountOverview = (
   accountId: string
 ) => Promise<Pick<AccountModel, 'id' | 'state' | 'type' | 'balance'>>
+type UpdateAccountState = (
+  accountId: string,
+  state: AccountStates
+) => Promise<void>
 
 export const addAccount: AddAccount = async account => {
   const id = await getNextId('ACC')
@@ -55,4 +59,16 @@ export const getAccountOverview: GetAccountOverview = async accountId => {
         }
       }
     )) as Pick<AccountModel, 'id' | 'state' | 'type' | 'balance'>
+}
+
+export const updateAccountState: UpdateAccountState = async (
+  accountId,
+  state
+) => {
+  await db.collection<AccountModel>('account').updateOne(
+    {
+      id: accountId
+    },
+    { state }
+  )
 }

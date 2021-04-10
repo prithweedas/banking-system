@@ -12,12 +12,16 @@ type AddTransaction = (
   transaction: Omit<TransactionModel, 'id' | 'state'>
 ) => Promise<string>
 type GetAllTransactions = (
-  account: string
+  accountId: string
 ) => Promise<ReadonlyArray<Omit<TransactionModel, 'account'>>>
 type GetTransaction = (
-  transaction: string,
-  account: string
+  transactionId: string,
+  accountId: string
 ) => Promise<Omit<TransactionModel, 'account'> | null>
+type UpdateTransactionState = (
+  transactionId: string,
+  state: TransactionModel['state']
+) => Promise<void>
 
 export const addTransaction: AddTransaction = async transaction => {
   const id = await getNextId('TXN')
@@ -29,11 +33,11 @@ export const addTransaction: AddTransaction = async transaction => {
   return id
 }
 
-export const getAllTransactions: GetAllTransactions = account => {
+export const getAllTransactions: GetAllTransactions = accountId => {
   return db
     .collection<TransactionModel>('transaction')
     .find(
-      { account },
+      { account: accountId },
       {
         projection: {
           _id: 0,
@@ -48,9 +52,18 @@ export const getAllTransactions: GetAllTransactions = account => {
     .toArray()
 }
 
-export const getTransaction: GetTransaction = (transaction, account) => {
+export const getTransaction: GetTransaction = (transactionId, accountId) => {
   return db.collection<TransactionModel>('transaction').findOne({
-    account,
-    id: transaction
+    account: accountId,
+    id: transactionId
   })
+}
+
+export const updateTransactionState: UpdateTransactionState = async (
+  transactionId,
+  state
+) => {
+  await db
+    .collection<TransactionModel>('transaction')
+    .updateOne({ id: transactionId }, { state })
 }
