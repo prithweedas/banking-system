@@ -7,6 +7,7 @@ type AccountModel = Omit<Account, 'address' | 'password'> & {
   address: string
   state: AccountStates
   balance: number
+  id: string
 }
 
 type AddAccount = (
