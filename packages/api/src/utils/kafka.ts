@@ -1,7 +1,7 @@
 import {
   KafkaTopics,
   PanVerificationData,
-  TransactionCheckOneData
+  TransactionCheckData
 } from '@banking/types'
 import { Kafka } from 'kafkajs'
 
@@ -14,20 +14,14 @@ const kafka = new Kafka({
 
 export const producer = kafka.producer()
 
-const getPanVerificationPartition = (accountId: string) => {
-  const id = parseInt(accountId.slice(3))
-  return id % 3
-}
-
 export const submitPanVerification = async (data: PanVerificationData) => {
-  const partition = getPanVerificationPartition(data.accountId)
   await producer.send({
     topic: KafkaTopics.PAN_VERIFICATION,
-    messages: [{ value: JSON.stringify(data), partition }]
+    messages: [{ value: JSON.stringify(data) }]
   })
 }
 
-export const submitTransaction = async (data: TransactionCheckOneData) => {
+export const submitTransaction = async (data: TransactionCheckData) => {
   await producer.send({
     topic: KafkaTopics.TRANSACTION_CHECK_ONE,
     messages: [{ value: JSON.stringify(data) }]

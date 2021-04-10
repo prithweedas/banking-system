@@ -1,12 +1,13 @@
-import { mongo } from '@banking/db'
-import { Transaction, TransactionCheckOneData } from '@banking/types'
+import { mongo, redis } from '@banking/db'
+import { Transaction, TransactionCheckData } from '@banking/types'
 import { Router } from 'express'
-import { MongoError } from 'mongodb'
 import { authCheck } from '../middlewares/authCHeck'
 import { checkAccountState } from '../middlewares/checkAccountState'
+import { requestvalidator } from '../middlewares/requestValidator'
 import { AuthLocal, CustomRequestHandler } from '../types/requests'
 import { errorResponse } from '../utils/errorResponse'
 import { submitTransaction } from '../utils/kafka'
+import { createTransactionRequestValidator } from '../utils/validators'
 
 const router = Router()
 
@@ -27,22 +28,28 @@ const createTransaction: CustomRequestHandler<Transaction, AuthLocal> = async (
       type
     })
 
-    const transactionData: TransactionCheckOneData = {
+    const transactionData: TransactionCheckData = {
       accountId,
       amount,
       transactionId,
       type
     }
+    // INFO: increase the count by one
+    const count = await redis.increaseTransactionLock(accountId)
 
-    await submitTransaction(transactionData)
-
+    if (count > 1) {
+      // INFO: if updated count is more than one there are pending transactions for this account
+      //        so add this transaction to list
+      await redis.addTransactionToList(transactionData)
+    } else {
+      // INFO: otherwise push this transaction to kafka for processing
+      await submitTransaction(transactionData)
+    }
     res.json({
       success: true,
       transactionId
     })
   } catch (error) {
-    if (error instanceof MongoError) {
-    }
     errorResponse(res)
   }
 }
@@ -94,8 +101,24 @@ const getTransaction: CustomRequestHandler<
   }
 }
 
-router.get('/', authCheck, checkAccountState, getTransactions)
-router.get('/:transactionId', authCheck, checkAccountState, getTransaction)
-router.post('/create', authCheck, checkAccountState, createTransaction)
+router.get(
+  '/',
+  authCheck,
+  // checkAccountState,
+  getTransactions
+)
+router.get(
+  '/:transactionId',
+  authCheck,
+  // checkAccountState,
+  getTransaction
+)
+router.post(
+  '/create',
+  requestvalidator(createTransactionRequestValidator),
+  authCheck,
+  checkAccountState,
+  createTransaction
+)
 
 export const transactionRouter = router

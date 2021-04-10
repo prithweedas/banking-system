@@ -1,4 +1,4 @@
-import { Account, AccountStates } from '@banking/types'
+import { Account, AccountStates, TransactionCheckData } from '@banking/types'
 import { Tedis } from 'tedis'
 const REDIS_HOST = process.env.REDIS_HOST || 'localhost'
 const REDIS_PORT = parseInt(process.env.REDIS_PORT || '6379')
@@ -34,4 +34,30 @@ export const setAccountType = async (
 }
 export const getAccountType = async (accountId: string) => {
   return (await client.get(`account-type:${accountId}`)) as Account['type']
+}
+
+export const increaseTransactionLock = async (
+  accountId: string
+): Promise<number> => {
+  return await client.incrby(`transaction-lock:${accountId}`, 1)
+}
+
+export const decreaseTransactionLock = async (
+  accountId: string
+): Promise<number> => {
+  return await client.incrby(`transaction-lock:${accountId}`, -1)
+}
+
+export const addTransactionToList = async (
+  data: TransactionCheckData
+): Promise<void> => {
+  await client.lpush(
+    `transaction-pending:${data.accountId}`,
+    JSON.stringify(data)
+  )
+}
+export const getTransactionFromList = async (
+  data: TransactionCheckData
+): Promise<string> => {
+  return (await client.rpop(`transaction-pending:${data.accountId}`)) as string
 }
