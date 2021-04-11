@@ -23,6 +23,10 @@ type UpdateAccountState = (
   accountId: string,
   state: AccountStates
 ) => Promise<void>
+type UpdateAccountBalance = (
+  accountId: string,
+  updateBy: number
+) => Promise<void>
 
 export const addAccount: AddAccount = async account => {
   const id = await getNextId('ACC')
@@ -70,5 +74,17 @@ export const updateAccountState: UpdateAccountState = async (
       id: accountId
     },
     { $set: { state } }
+  )
+}
+
+export const updateAccountBalance: UpdateAccountBalance = async (
+  accountId,
+  updateBy
+) => {
+  await db.collection<AccountModel>('account').updateOne(
+    {
+      id: accountId
+    },
+    { $inc: { balance: updateBy } }
   )
 }
