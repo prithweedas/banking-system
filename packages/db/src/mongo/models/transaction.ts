@@ -65,5 +65,5 @@ export const updateTransactionState: UpdateTransactionState = async (
 ) => {
   await db
     .collection<TransactionModel>('transaction')
-    .updateOne({ id: transactionId }, { state })
+    .updateOne({ id: transactionId }, { $set: { state } })
 }
