@@ -45,12 +45,9 @@ const main = async () => {
         { unique: true }
       ),
       // INFO: creating index on account id
-      mongo.db.collection('transaction').createIndex(
-        {
-          account: 1
-        },
-        { unique: true }
-      )
+      mongo.db.collection('transaction').createIndex({
+        account: 1
+      })
     ])
   } catch (error) {
     console.log(error)

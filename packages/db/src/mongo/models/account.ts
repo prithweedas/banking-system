@@ -69,6 +69,6 @@ export const updateAccountState: UpdateAccountState = async (
     {
       id: accountId
     },
-    { state }
+    { $set: { state } }
   )
 }

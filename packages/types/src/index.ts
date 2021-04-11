@@ -20,13 +20,11 @@ export type AccountStates = 'PENDING' | 'ACTIVE' | 'REJECTED' | 'FREEZED'
 
 export enum KafkaTopics {
   PAN_VERIFICATION = 'pan-verification',
-  ACCOUNT_VERIFIED = 'account-verified',
-  ACCOUNT_REJECTED = 'account-rejected',
   TRANSACTION_CHECK_ONE = 'transaction-check-one',
   TRANSACTION_CHECK_TWO = 'transaction-check-two',
-  TRANSACTION_EXECUTE = 'transaction-execute',
-  TRANSACTION_COMPLETE = 'transaction-complete',
-  TRANSACTION_FAILED = 'transaction-failed'
+  TRANSACTION_FINALIZE = 'transaction-finalize',
+  SEND_EMAIL = 'send-email',
+  SEND_CALLBACK = 'send-callback'
 }
 
 // INFO: kafka tasks input data
@@ -42,3 +40,14 @@ export type TransactionCheckData = {
   amount: number
   type: Transaction['type']
 }
+export type TransactionFinalizeData = TransactionCheckData & {
+  checked: boolean
+}
+
+export type SendEmailData =
+  | (TransactionCheckData & {
+      template: 'TRANSACTION_FAILED' | 'TRANSACTION_COMPLETE'
+    })
+  | (PanVerificationData & {
+      template: 'ACCOUNT_VERIFIED' | 'ACCOUNT_REJECTED'
+    })

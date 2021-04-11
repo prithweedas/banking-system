@@ -1,3 +1,4 @@
+import { KafkaTopics } from '@banking/types'
 import { Kafka } from 'kafkajs'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
@@ -18,24 +19,28 @@ const main = async () => {
     await admin.createTopics({
       topics: [
         {
-          topic: 'pan-verification',
+          topic: KafkaTopics.PAN_VERIFICATION,
           numPartitions: 3
         },
         {
-          topic: 'send-email',
-          numPartitions: 4
+          topic: KafkaTopics.SEND_CALLBACK,
+          numPartitions: 3
         },
         {
-          topic: 'send-callback',
-          numPartitions: 2
+          topic: KafkaTopics.SEND_EMAIL,
+          numPartitions: 3
         },
         {
-          topic: 'check-transaction',
+          topic: KafkaTopics.TRANSACTION_CHECK_ONE,
           numPartitions: 5
         },
         {
-          topic: 'process-transaction',
-          numPartitions: 5
+          topic: KafkaTopics.TRANSACTION_CHECK_TWO,
+          numPartitions: 3
+        },
+        {
+          topic: KafkaTopics.TRANSACTION_FINALIZE,
+          numPartitions: 3
         }
       ]
     })

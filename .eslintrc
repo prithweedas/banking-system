@@ -3,7 +3,7 @@
   "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
   "plugins": ["prettier"],
   "rules": {
-    "no-console": "warn",
+    "no-console": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "prettier/prettier": [
       "error",
