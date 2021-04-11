@@ -51,7 +51,7 @@ const createAccountRequestSchema: JSONSchemaType<Account> = {
       type: 'string',
       minLength: 6,
       maxLength: 16,
-      pattern: '^[a-zA-Z0-9]*$'
+      pattern: '^[a-zA-Z0-9_]*$'
     }
   },
   required: ['address', 'email', 'pan', 'username', 'password', 'type']
