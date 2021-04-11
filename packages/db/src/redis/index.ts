@@ -57,7 +57,7 @@ export const addTransactionToList = async (
   )
 }
 export const getTransactionFromList = async (
-  data: TransactionCheckData
+  accountId: string
 ): Promise<string> => {
-  return (await client.rpop(`transaction-pending:${data.accountId}`)) as string
+  return (await client.rpop(`transaction-pending:${accountId}`)) as string
 }

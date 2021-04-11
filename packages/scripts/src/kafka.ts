@@ -32,7 +32,7 @@ const main = async () => {
         },
         {
           topic: KafkaTopics.TRANSACTION_CHECK_ONE,
-          numPartitions: 5
+          numPartitions: 3
         },
         {
           topic: KafkaTopics.TRANSACTION_CHECK_TWO,

@@ -41,8 +41,10 @@ const createTransaction: CustomRequestHandler<Transaction, AuthLocal> = async (
       // INFO: if updated count is more than one there are pending transactions for this account
       //        so add this transaction to list
       await redis.addTransactionToList(transactionData)
+      console.log(`added ${transactionId} to redis list`)
     } else {
       // INFO: otherwise push this transaction to kafka for processing
+      console.log(`sent ${transactionId} to kafka topic`)
       await submitTransaction(transactionData)
     }
     res.json({

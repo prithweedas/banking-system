@@ -30,13 +30,12 @@ const main = async () => {
         const data = JSON.parse(
           value?.toString() as string
         ) as PanVerificationData
-        // INFO: mocking that this process takes 30 sec
-        await sleep(30)
+        // INFO: mocking that this process takes 15 sec
+        await sleep(15)
         // INFO: just a mock pan verification check with 85% success probability
         const chance = Math.random() < 0.85
         if (chance) {
           // INFO: success scenario
-          client.logger().info(`sdvsdvsdv ${partition}`)
           console.log(
             `[${partition}]: Account verified ${data.accountId} with pan ${data.pan}`
           )
