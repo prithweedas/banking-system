@@ -63,7 +63,7 @@ const main = async () => {
           await Promise.all([
             mongo.transaction.updateTransactionState(
               data.transactionId,
-              'COMPLETE'
+              'FAILED'
             ),
             producer.send({
               topic: KafkaTopics.SEND_EMAIL,
