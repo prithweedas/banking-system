@@ -23,7 +23,8 @@
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
     "clean": "rimraf dist tsconfig.build.tsbuildinfo",
-    "start:dev": "ts-node-dev -r tsconfig-paths/register -r dotenv/config"
+    "start:dev": "ts-node-dev -r tsconfig-paths/register -r dotenv/config",
+    "start": "node"
   },
   "files": [
     "dist"

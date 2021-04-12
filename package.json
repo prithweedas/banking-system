@@ -22,7 +22,15 @@
     "start:task:dev": "lerna run start:dev --stream --scope=@banking/tasks --",
     "script:mongo": "lerna run start:prod --stream --scope=@banking/scripts -- dist/mongo.js",
     "script:kafka": "lerna run start:prod --stream --scope=@banking/scripts -- dist/kafka.js",
-    "commit": "cz"
+    "commit": "cz",
+    "task:panverification": "lerna run start --stream --scope=@banking/tasks -- dist/panVerification.js",
+    "task:transactioncheckone": "lerna run start --stream --scope=@banking/tasks -- dist/transactionCheckOne.js",
+    "task:transactionchecktwo": "lerna run start --stream --scope=@banking/tasks -- dist/transactionCheckTwo.js",
+    "task:transactionfinalize": "lerna run start --stream --scope=@banking/tasks -- dist/transactionFinalize.js",
+    "task:sendemail": "lerna run start --stream --scope=@banking/tasks -- dist/sendEmail.js",
+    "task:sendcallback": "lerna run start --stream --scope=@banking/tasks -- dist/sendCallback.js",
+    "task:delaytasks": "lerna run start --stream --scope=@banking/tasks -- dist/delayTasks.js",
+    "api": "lerna run start --stream --scope=@banking/tasks"
   },
   "config": {
     "commitizen": {
