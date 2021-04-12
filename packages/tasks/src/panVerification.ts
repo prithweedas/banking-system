@@ -73,7 +73,11 @@ const main = async () => {
     })
   } catch (error) {
     console.error(error)
-    await Promise.all([consumer.disconnect(), producer.disconnect()])
+    await Promise.all([
+      consumer.disconnect(),
+      producer.disconnect(),
+      mongo.db.close()
+    ])
     process.exit()
   }
 }
