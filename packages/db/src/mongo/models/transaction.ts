@@ -40,12 +40,7 @@ export const getAllTransactions: GetAllTransactions = accountId => {
       { account: accountId },
       {
         projection: {
-          _id: 0,
-          account: 1,
-          amount: 1,
-          id: 1,
-          state: 1,
-          type: 1
+          _id: 0
         }
       }
     )
@@ -53,10 +48,17 @@ export const getAllTransactions: GetAllTransactions = accountId => {
 }
 
 export const getTransaction: GetTransaction = (transactionId, accountId) => {
-  return db.collection<TransactionModel>('transaction').findOne({
-    account: accountId,
-    id: transactionId
-  })
+  return db.collection<TransactionModel>('transaction').findOne(
+    {
+      account: accountId,
+      id: transactionId
+    },
+    {
+      projection: {
+        _id: 0
+      }
+    }
+  )
 }
 
 export const updateTransactionState: UpdateTransactionState = async (
