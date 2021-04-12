@@ -9,6 +9,7 @@
   "dependencies": {
     "@banking/db": "^1.0.0",
     "@banking/types": "^1.0.0",
+    "dayjs": "^1.10.4",
     "kafkajs": "^1.15.0"
   },
   "devDependencies": {

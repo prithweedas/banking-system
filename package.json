@@ -18,10 +18,10 @@
   "scripts": {
     "build": "lerna run build",
     "clean": "lerna run clean",
-    "start:api:dev": "lerna exec --scope=@banking/api -- yarn start:dev",
+    "start:api:dev": "lerna run start:dev --stream --scope=@banking/api",
     "start:task:dev": "lerna run start:dev --stream --scope=@banking/tasks --",
-    "script:mongo": "lerna exec start:prod --stream --scope=@banking/scripts -- dist/mongo.js",
-    "script:kafka": "lerna exec start:prod --stream --scope=@banking/scripts -- dist/kafka.js",
+    "script:mongo": "lerna run start:prod --stream --scope=@banking/scripts -- dist/mongo.js",
+    "script:kafka": "lerna run start:prod --stream --scope=@banking/scripts -- dist/kafka.js",
     "commit": "cz"
   },
   "config": {

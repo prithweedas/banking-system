@@ -24,7 +24,9 @@ export enum KafkaTopics {
   TRANSACTION_CHECK_TWO = 'transaction-check-two',
   TRANSACTION_FINALIZE = 'transaction-finalize',
   SEND_EMAIL = 'send-email',
-  SEND_CALLBACK = 'send-callback'
+  SEND_CALLBACK = 'send-callback',
+  DELAY_FIVE = 'delay-five',
+  DELAY_TEN = 'delay-ten'
 }
 
 // INFO: kafka tasks input data
@@ -51,3 +53,15 @@ export type SendEmailData =
   | (PanVerificationData & {
       template: 'ACCOUNT_VERIFIED' | 'ACCOUNT_REJECTED'
     })
+
+export type SendCallbackData = {
+  transactionId: string
+  type: 'TRANSACTION_FAILED' | 'TRANSACTION_COMPLETE'
+  tries: number
+}
+
+export type DelayData = {
+  topic: string
+  nextExecution: number
+  message: string
+}

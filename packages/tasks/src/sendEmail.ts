@@ -10,11 +10,10 @@ const main = async () => {
     clientId: 'MAIL_TASK'
   })
   const consumer = client.consumer({
-    groupId: 'send_mail',
-    sessionTimeout: 60 * 1000
+    groupId: 'send_mail'
   })
   try {
-    await Promise.all([consumer.connect()])
+    await consumer.connect()
     await consumer.subscribe({
       topic: KafkaTopics.SEND_EMAIL
     })
@@ -42,7 +41,7 @@ const main = async () => {
     })
   } catch (error) {
     console.error(error)
-    await Promise.all([consumer.disconnect()])
+    await consumer.disconnect()
     process.exit()
   }
 }

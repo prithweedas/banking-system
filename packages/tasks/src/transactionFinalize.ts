@@ -1,5 +1,6 @@
 import {
   KafkaTopics,
+  SendCallbackData,
   SendEmailData,
   TransactionFinalizeData
 } from '@banking/types'
@@ -40,6 +41,11 @@ const main = async () => {
             template: 'TRANSACTION_COMPLETE',
             ...data
           }
+          const callbackData: SendCallbackData = {
+            type: 'TRANSACTION_COMPLETE',
+            tries: 1,
+            transactionId: data.transactionId
+          }
 
           await Promise.all([
             mongo.account.updateAccountBalance(
@@ -53,12 +59,21 @@ const main = async () => {
             producer.send({
               topic: KafkaTopics.SEND_EMAIL,
               messages: [{ value: JSON.stringify(mailData) }]
+            }),
+            producer.send({
+              topic: KafkaTopics.SEND_CALLBACK,
+              messages: [{ value: JSON.stringify(callbackData) }]
             })
           ])
         } else {
           const mailData: SendEmailData = {
             template: 'TRANSACTION_FAILED',
             ...data
+          }
+          const callbackData: SendCallbackData = {
+            type: 'TRANSACTION_FAILED',
+            tries: 1,
+            transactionId: data.transactionId
           }
           await Promise.all([
             mongo.transaction.updateTransactionState(
@@ -68,6 +83,10 @@ const main = async () => {
             producer.send({
               topic: KafkaTopics.SEND_EMAIL,
               messages: [{ value: JSON.stringify(mailData) }]
+            }),
+            producer.send({
+              topic: KafkaTopics.SEND_CALLBACK,
+              messages: [{ value: JSON.stringify(callbackData) }]
             })
           ])
         }

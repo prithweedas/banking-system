@@ -41,6 +41,14 @@ const main = async () => {
         {
           topic: KafkaTopics.TRANSACTION_FINALIZE,
           numPartitions: 3
+        },
+        {
+          topic: KafkaTopics.DELAY_FIVE,
+          numPartitions: 1
+        },
+        {
+          topic: KafkaTopics.DELAY_TEN,
+          numPartitions: 1
         }
       ]
     })
