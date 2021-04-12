@@ -25,7 +25,7 @@ const main = async () => {
       })
     ])
     await consumer.run({
-      eachMessage: async ({ message: { value } }) => {
+      eachMessage: async ({ message: { value }, topic: subscribedTopic }) => {
         const { message, nextExecution, topic } = JSON.parse(
           value?.toString() as string
         ) as DelayData
@@ -41,7 +41,7 @@ const main = async () => {
             messages: [{ value: message }]
           })
         } else {
-          consumer.pause([{ topic }])
+          consumer.pause([{ topic: subscribedTopic }])
           setTimeout(async () => {
             console.log(
               `Sending delayed message to ${topic}, message -> ${message}`
@@ -50,7 +50,7 @@ const main = async () => {
               topic,
               messages: [{ value: message }]
             })
-            consumer.resume([{ topic }])
+            consumer.resume([{ topic: subscribedTopic }])
           }, delay * 1000)
         }
       }
