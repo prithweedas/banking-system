@@ -12,6 +12,7 @@ import { createToken } from '../utils/jwt'
 import { submitPanVerification } from '../utils/kafka'
 import { Account } from '@banking/types'
 import { authCheck } from '../middlewares/authCHeck'
+import { checkAccountState } from '../middlewares/checkAccountState'
 
 const SECURE_COOKIE = process.env.NODE_ENV === 'production'
 
@@ -151,6 +152,6 @@ router.post(
   loginAccountHandler
 )
 router.get('/refresh', authCheck, refreshAuthToken)
-router.get('/overview', authCheck, accountOverview)
+router.get('/overview', authCheck, checkAccountState, accountOverview)
 
 export const accountRouter = router

@@ -30,7 +30,7 @@
     "task:sendemail": "lerna run start --stream --scope=@banking/tasks -- dist/sendEmail.js",
     "task:sendcallback": "lerna run start --stream --scope=@banking/tasks -- dist/sendCallback.js",
     "task:delaytasks": "lerna run start --stream --scope=@banking/tasks -- dist/delayTasks.js",
-    "api": "lerna run start --stream --scope=@banking/tasks"
+    "api": "lerna run start --stream --scope=@banking/api"
   },
   "config": {
     "commitizen": {
